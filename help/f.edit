@@ -1,0 +1,30 @@
+Edit'eur des textes, Copyright (C) 1990-97 Serge Vakulenko
+@Mouvement@
+Gauche            ^A
+Droite            ^D
+Haut              ^E
+Bas               ^X
+Un mot a gauche   ^W
+Un mot a droite   ^F
+Page pr'ec'edente ^R
+Page suivante     ^B
+D'ebut de ligne   Home
+Fin de ligne      End
+D'ebut du fichier F5
+Fin du fichier    F6
+Haut d''ecran     F8
+@Cherche@
+Cherche de ligne  F7
+@Rejettement@
+Symbole a gauche  ^H or <BS>
+Sous le marqueur  ^G or <Del>
+Ligne             ^Y
+Fin de ligne      ^K
+@Diversit'es@
+Renouveler l'ecran  ^]
+Defendre un symbole ^V
+Enregistrement      F2
+Sortie              ^C
+@Modes@
+Transparente      F3
+Blancs visibles   F9

@@ -1,0 +1,30 @@
+The Demos Commander Text Editor, Copyright (C) 1990-97 Serge Vakulenko
+@Cursor Movement@
+Char Left        ^A
+Char Right       ^D
+Line Up          ^E
+Line Down        ^X
+Word Left        ^W
+Word Right       ^F
+Prev Page        ^R
+Next Page        ^B
+Begin of line    Home
+End of line      End
+Top of file      F5
+End of file      F6
+Top of screen    F8
+@Search@
+Search string    F7
+@Delete@
+Char left        ^H or <BS>
+Under cursor     ^G or <Del>
+Line             ^Y
+To end of line   ^K
+@Other@
+Redraw screen    ^]
+Quote next char  ^V
+Save file        F2
+Exit             ^C
+@Modes@
+Raw mode         F3
+Visible spaces   F9

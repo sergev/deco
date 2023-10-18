@@ -1,0 +1,32 @@
+The Demos Commander, Copyright (C) 1989-97 Serge Vakulenko
+@Cursor Arrows@
+Left             ^[ l
+Right            ^[ r
+Up               ^[ u
+Down             ^[ d
+@Cursor Movement@
+Char left        ^S or ^A
+Char right       ^D
+@Panels@
+Switch panels    ^I or <Tab>
+Panels on/off    ^O or ^P
+Swap panels      ^U
+Toggle status    ^L
+Full screen      ^F
+Double width     ^W
+The "+" and "-" keys select and unselect groups of files.
+@Delete@
+Char left        ^H or <BS>
+Under cursor     ^G or <Del>
+Line             ^Y
+@Other@
+History          ^B
+Home directory   ^\
+Reread directory ^R
+Select/Unselect  ^T or <Ins>
+Previous command ^E
+Next command     ^X
+Run file or
+Enter directory  ^M or <Ret>
+Use file name    ^J or <LF>
+Function keys    ^[ + digit

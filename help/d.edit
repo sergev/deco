@@ -1,0 +1,30 @@
+Textredaktor, Copyright (C) 1990-97 Serge Vakulenko
+@Verschiebung@
+Zeichen nach links      ^A
+Zeichen nach rechts     ^D
+Zeile nach oben         ^E
+Zeile nach unten        ^X
+Wort nach links         ^W
+Wort nach rechts        ^F
+vorige Seite            ^R
+folgende Seite          ^B
+Anfang der Zeile        Home
+Ende der Zeile          End
+Anfang der Datei        F5
+Ende der Datei          F6
+Anfang einen Bildschirm F8
+@Suchen@
+Suchen nach Zeile       F7
+@L"osche@
+Zeichen von links    ^H, <BS>
+unter Cursor         ^G, <Del>
+Zeile                ^Y
+Zeileende            ^K
+@Verschiedenes@
+Bildschirmerneuerung ^]
+Zeichenschutz        ^V
+Datensatz            F2
+Ausgang              ^C
+@Betriebsarten@
+transparentz Modus   F3
+sichtbare Leerstelle F9

@@ -1,0 +1,103 @@
+#### Start of system configuration section. ####
+
+srcdir          = @srcdir@
+prefix          = @prefix@
+exec_prefix     = @exec_prefix@
+bindir          = @bindir@
+libdir          = @libdir@
+mandir          = @mandir@
+VPATH           = @srcdir@
+
+INSTALL         = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA    = @INSTALL_DATA@
+CPPFLAGS        = @CPPFLAGS@
+CXXFLAGS        = @CXXFLAGS@
+LDFLAGS         = @LDFLAGS@
+LIBS            = @LIBS@
+CC              = @CC@
+CPP             = @CPP@
+
+CFLAGS          = @CFLAGS@ @DEFS@
+
+#### End of system configuration section. ####
+
+SHELL           = /bin/sh
+
+HDRS            = deco.h dir.h env.h menu.h rec.h scr.h
+
+OBJS            = cap.o choice.o cmd.o com.o dir.o draw.o edit.o env.o ex.o\
+		  help.o hexview.o key.o main.o menu.o mh.o pw.o\
+		  rec.o run.o scr.o tty.o ut.o view.o
+
+SRCS            = cap.c choice.c cmd.c com.c dir.c draw.c edit.c env.c ex.c\
+		  help.c hexview.c key.c main.c menu.c mh.c pw.c\
+		  rec.c run.c scr.c tty.c ut.c view.c
+
+all:            deco
+
+check:
+
+install:        deco $(libdir)/deco $(libdir)/deco/help\
+			$(libdir)/deco/menu $(libdir)/deco/profile
+		$(INSTALL_PROGRAM) deco $(bindir)
+		cd help; for f in *.general *.edit *.view *.hexview; do\
+			$(INSTALL_DATA) $$f $(libdir)/deco/help/$$f; done
+		$(INSTALL_DATA) ref.man $(mandir)/man1/deco.1
+		$(INSTALL_DATA) cyrref.man $(mandir)/man1/deco-r.1
+
+$(libdir)/deco:
+		mkdir $(libdir)/deco
+
+$(libdir)/deco/help:
+		mkdir $(libdir)/deco/help
+
+$(libdir)/deco/menu:
+		$(INSTALL_DATA) menu $(libdir)/deco/menu
+
+$(libdir)/deco/profile:
+		$(INSTALL_DATA) profile $(libdir)/deco/profile
+
+uninstall:
+
+clean::
+		rm -f *.[ob] *~ deco *.log autoconf.sum config.cache
+
+distclean::	clean
+		rm -f Makefile config.status
+
+deco:           $(OBJS)
+		$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o deco
+
+configure:      configure.in
+		autoconf
+
+Makefile:       Makefile.in config.status
+		./config.status
+
+config.status:  configure
+		./config.status --recheck
+
+###
+cap.o: scr.h env.h deco.h
+choice.o: scr.h dir.h deco.h
+cmd.o: deco.h dir.h scr.h env.h
+com.o: deco.h scr.h dir.h env.h
+dir.o: dir.h deco.h
+draw.o: dir.h deco.h scr.h
+edit.o: deco.h scr.h rec.h
+env.o: deco.h
+ex.o: dir.h deco.h scr.h
+help.o: deco.h scr.h env.h
+hexview.o: deco.h scr.h rec.h
+key.o: scr.h
+main.o: scr.h dir.h deco.h env.h
+menu.o: deco.h scr.h menu.h
+mh.o: scr.h dir.h deco.h menu.h
+pw.o: deco.h
+rec.o: rec.h deco.h
+run.o: deco.h env.h
+scr.o: scr.h env.h deco.h
+tty.o: scr.h
+ut.o: deco.h
+view.o: deco.h scr.h rec.h

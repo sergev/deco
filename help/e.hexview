@@ -1,0 +1,22 @@
+The Demos Commander Hex Viewer, Copyright (C) 1990-97 Serge Vakulenko
+@Cursor Movement@
+Page Left        ^A
+Page Right       ^D
+Line Up          ^E
+Line Down        ^X
+Prev Page        ^R
+Next Page        ^B
+Top of file      Home or F5
+End of file      End or F6
+@Search@
+Search string    F7
+@Other@
+Redraw screen    ^]
+Exit             ^C
+@Modes@
+Raw mode         F3
+Visible spaces   F9
+Spaces are displayed as "."
+and tabs as "_"
+For hexadecimal search
+type char codes as "\xx"

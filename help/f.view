@@ -1,0 +1,22 @@
+Revue en texte, Copyright (C) 1990-97 Serge Vakulenko
+@Mouvements@
+Ecran a gauche    ^A
+Ecran a droite    ^D
+Ligne a haut      ^E
+Ligne a bas       ^X
+Page precedente   ^R
+Page suivante     ^B
+Debut du fichier  Home ou F5
+Fin du fichier    End ou F6
+@Cherche@
+Chercher une ligne F7
+@Diversites@
+Renouveler l'ecran ^]
+Sortie             ^C
+@Modes@
+Transparente      F3
+Blancs  visibles  F9
+Les lignes a longeur plus de 1024 octets
+"se cassent" et se marquent par "\"
+Les blancs se montrent comme ".",
+les tabulations - comme "_"

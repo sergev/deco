@@ -1,0 +1,22 @@
+hexadezimale Durchsicht, Copyright (C) 1990-97 Serge Vakulenko
+@Verschiebung@
+Bildschirm nach links  ^A
+Bildschirm nach rechts ^D
+Zeile nach oben        ^E
+Zeile nach unten       ^X
+vorige Seite           ^R
+folgende Seite         ^B
+Anfang der Datei       Home, F5
+Ende der Datei         End, F6
+@Suchen@
+Zeilesuchen            F7
+@Verschiedenes@
+Bildschirmerneuerung     ^]
+Ausgang                  ^C
+@Betriebsarten@
+transparentz Betriebsart F3
+sichtbare Leerstelle     F9
+Leerzeichen sind in Form "."
+dargestellt, Tabulationen "_"
+Bei hexadezimale Suche sollen
+die Zeichen in Form "\xx" angegeben werden

@@ -1,0 +1,22 @@
+Textdurchsicht, Copyright (C) 1990-97 Serge Vakulenko
+@Verschiebung@
+Bildschirm nach links  ^A
+Bildschirm nach rechts ^D
+Zeile nach oben        ^E
+Zeile nach unten       ^X
+vorige Seite           ^R
+folgende Seite         ^B
+Anfang der Datei       Home, F5
+Ende der Datei         End, F6
+@Suchen@
+Suchen nach Zeile      F7
+@Verschiedenes@
+Bildschirmerneuerung     ^]
+Ausgang                  ^C
+@Betriebsarten@
+transparentz Betriebsart F3
+sichtbare Leerstelle     F9
+Zeilen mit eine L"anger "uber 1024
+Bt werden gebrochen und mit Zeichen
+"\" vermerkt. Leerzeichen werden
+in Form "." dargestellt, Tabulationen "_"

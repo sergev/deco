@@ -1,0 +1,32 @@
+Demos Commander, Copyright (C) 1989-97 Serge Vakulenko
+@Fleches@
+Gauche           ^[ l
+Droite           ^[ r
+Haut             ^[ u
+Bas              ^[ d
+@Mouvement@
+Gauche           ^S ou ^A
+Droite           ^D
+@Fenetres@
+Choix            ^I ou <Tab>
+Allumer/Eteindre ^O ou ^P
+Echangement      ^U
+Status           ^L
+Plein ecran      ^F
+Double largeur   ^W
+Symboles "+" et "-" mettent et remettent les marques des fichiers.
+@Rejettement@
+Symbole a gauche ^H или <BS>
+Sous le marqueur ^G или <Del>
+Ligne            ^Y
+@Diversites@
+Histoire            ^B
+Catalogue-maison    ^\
+Lire un catalogue   ^R
+Marquer un fichier  ^T ou <Ins>
+Commande precedente ^E
+Commande suivante   ^X
+Lancer l'execution ou
+Entrer au catalogue ^M или <Ret>
+Prendre le nom du fichier  ^J или <LF>
+F-clavier        ^[ + chiffre

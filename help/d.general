@@ -1,0 +1,32 @@
+Demos Kommander, Copyright (C) 1989-97 Serge Vakulenko
+@Klammern@
+nach links          ^[ l
+nach rechts         ^[ r
+nach oben           ^[ u
+nach unten          ^[ d
+@Cursorbewegung@
+Zeichen nach links  ^S, ^A
+Zeichen nach rechts ^D
+@Fenstern@
+Fensterauswahl      ^I, <Tab>
+ein/ausschalten     ^O, ^P
+Fensternausl"osung  ^U
+Statusfenster       ^L
+Vollbildschirm      ^F
+doppelte Breite     ^W
+Zeichen "+" und "-" setzen und abnehmen der Dateimerker.
+@L"oschen@
+Zeichen von links  ^H, <BS>
+unter Cursor       ^G, <Del>
+Zeile              ^Y
+@Verschiedenes@
+Geschichte         ^B
+Hauskatalog        ^\
+Katalog lesen      ^R
+Datei merken       ^T, <Ins>
+voriger Befehl     ^E
+folgender Befehl   ^X
+Dateistart
+Eingang in Katalog ^M, <Ret>
+Dateinahme nehmen  ^J, <LF>
+F-Taste            ^[ + ziffer
