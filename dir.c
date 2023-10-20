@@ -25,8 +25,6 @@ static struct dir *compdir;
 
 static int comptype(const struct file *f);
 static void chdirup(char *name);
-static char *prepend(char *p, char *str);
-static char *getcwdname(char *pathname);
 static void retag(struct dir *d, struct dir *od);
 static int fgetinfo(char *info, int maxlen, char *rinfo, int rmaxlen, unsigned long *date, FILE *fd);
 
@@ -142,69 +140,6 @@ static void chdirup(char *name)
     }
 }
 
-static char *prepend(char *p, char *str)
-{
-    int len = strlen(str);
-    memcpy(p - len, str, len);
-    return (p - len);
-}
-
-/*
- * Get current directory name.  Pathname should be at least
- * MAXPATHLEN long.  Returns 0 on error, and puts message into pathname.
- * Compatible with BSD getwd().
- */
-static char *getcwdname(char *pathname)
-{
-    char upname[MAXPATHLEN + MAXNAMLEN];
-    char myname[MAXPATHLEN];
-    char *upptr, *myptr;
-    struct stat root, up, this, f;
-    register struct dirent *rec;
-    DIR *dir;
-
-    myptr  = &myname[MAXPATHLEN - 1];
-    upptr  = &upname[MAXPATHLEN - 1];
-    *myptr = *upptr = 0;
-    upptr           = prepend(upptr, "./");
-    stat("/", &root);
-    stat(upptr, &this);
-    while (this.st_dev != root.st_dev || this.st_ino != root.st_ino) {
-        upptr = prepend(upptr, "../");
-        dir   = opendir(upptr);
-        if (!dir) {
-            strcpy(pathname, "Cannot read `..'");
-            return (0);
-        }
-        fstat(dirfd(dir), &up);
-        for (;;) {
-            if (!(rec = readdir(dir))) {
-                strcpy(pathname, "Cannot find path");
-                return (0);
-            }
-            if (this.st_dev == up.st_dev) {
-                if (this.st_ino == rec->d_ino)
-                    break;
-                continue;
-            }
-            if (rec->d_name[0] == '.' &&
-                (!rec->d_name[1] || (rec->d_name[1] == '.' && rec->d_name[2] == 0)))
-                continue;
-            strcpy(&upname[MAXPATHLEN - 1], rec->d_name);
-            lstat(upptr, &f);
-            upname[MAXPATHLEN - 1] = 0;
-            if (this.st_ino == f.st_ino && this.st_dev == f.st_dev)
-                break;
-        }
-        myptr    = prepend(myptr, rec->d_name);
-        *--myptr = '/';
-        closedir(dir);
-        this = up;
-    }
-    strcpy(pathname, *myptr ? myptr : "/");
-    return (pathname);
-}
-
 /*
  *      Set up new directory.
  *      struct dir *d   - directory structure
@@ -224,7 +159,7 @@ int setdir(struct dir *d, char *dirname)
         if (chdir(dirname) < 0) {
             error("Cannot chdir to %s", dirname);
         } else {
-            getcwdname(d->cwd);
+            getcwd(d->cwd, sizeof(d->cwd));
         }
     }
     chdirup(d->cwd);
