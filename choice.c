@@ -6,12 +6,12 @@
 #include "dir.h"
 #include "scr.h"
 
-#define SWAP(a, b)  \
-    {               \
-        register t; \
-        t = a;      \
-        a = b;      \
-        b = t;      \
+#define SWAP(a, b)      \
+    {                   \
+        register int t; \
+        t = a;          \
+        a = b;          \
+        b = t;          \
     }
 
 struct choice {
@@ -21,7 +21,7 @@ struct choice {
 };
 
 static struct choice tab[3];
-static cnum;
+static int cnum;
 static void (*attron)();
 static int (*attroff)();
 static BOX *mbox;
@@ -63,7 +63,7 @@ int getchoice(int bold, char *head, char *msg, char *mesg2, char *c1, char *c2, 
 {
     int len, ch;
     int isattr;
-    register r, c, w, h;
+    register int r, c, w, h;
     BOX *box;
     char mesg[67];
 
@@ -142,7 +142,7 @@ int getchoice(int bold, char *head, char *msg, char *mesg2, char *c1, char *c2, 
 
 static void initchoice(int row, int col, char *c1, char *c2, char *c3)
 {
-    register i, w;
+    register int i, w;
 
     cnum        = c2 ? (c3 ? 3 : 2) : 1;
     tab[0].name = c1;
@@ -197,7 +197,7 @@ static int menuchoice()
 
 static void drawchoice(int ch)
 {
-    register i;
+    register int i;
 
     for (i = 0; i < cnum; ++i) {
         if (i == ch) {
@@ -217,7 +217,7 @@ static void drawchoice(int ch)
 
 static char *editstring(int r, int c, int w, char *str, int cp)
 {
-    register key, k;
+    register int key, k;
     int firstkey = 1;
 
     if (cp) {
@@ -305,7 +305,7 @@ static char *editstring(int r, int c, int w, char *str, int cp)
 
 char *getstring(int w, char *str, char *head, char *mesg)
 {
-    register r, c, h;
+    register int r, c, h;
     int len;
     BOX *box;
     static char buf[81];
@@ -341,7 +341,7 @@ char *getstring(int w, char *str, char *head, char *mesg)
 
 char *getwstring(int w, char *str, char *head, char *mesg)
 {
-    register r, c, h;
+    register int r, c, h;
     int len;
     BOX *box;
     static char buf[81];

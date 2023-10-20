@@ -34,10 +34,10 @@ static void (*flush)(void);
 #define NKEY 100
 
 static jmp_buf wakeup;
-static keyback;
+static int keyback;
 static unsigned oldalarm;
 
-static cyrinput;
+static int cyrinput;
 extern char VCyrInputTable[];
 
 /*
@@ -51,7 +51,7 @@ static int compkeys(const void *arg1, const void *arg2)
 {
     const struct KeyMap *a = arg1;
     const struct KeyMap *b = arg2;
-    register cmp;
+    register int cmp;
 
     if (!a->str) {
         if (!b->str)
@@ -123,7 +123,7 @@ static RETSIGTYPE badkey()
 
 static int nmgetch(struct KeyMap *kp)
 {
-    register match, c;
+    register int match, c;
     register struct KeyMap *lp;
 
     for (match = 1;; ++match) {

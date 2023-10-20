@@ -152,7 +152,7 @@ void CapGet(struct CapTab *t)
 char *CapGoto(char *CM, int destcol, int destline)
 {
     register char *cp, *dp;
-    register c, which, oncol;
+    register int c, which, oncol;
     static char result[MAXRETURNSIZE];
 
 #ifdef DEBUG
@@ -246,7 +246,7 @@ char *CapGoto(char *CM, int destcol, int destline)
 
 static char *branchto(register char *cp, int to)
 {
-    register c, level;
+    register int c, level;
 
     level = 0;
     while ((c = *cp++)) {
@@ -298,7 +298,7 @@ static char *branchto(register char *cp, int to)
  */
 static void sysvgoto(register char *outp, register char *cp, int p1, int p2)
 {
-    register c, op;
+    register int c, op;
     int vars[26], stack[10], top, sign;
 
 #define PUSH(i) (stack[++top] = (i))

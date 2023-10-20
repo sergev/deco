@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 1L
 #include <errno.h>
 #include <setjmp.h>
 #include <signal.h>
@@ -18,12 +19,12 @@
 
 #define QUANT 16
 
-typedef (*funcptr)();
+//typedef int (*funcptr)();
 
 static char **arg;
-static arglen, argp;
+static int arglen, argp;
 
-static run();
+static int run(char *name, char **ap, int (*exe)(), int silent);
 
 void runset(char *dest)
 {
@@ -88,7 +89,7 @@ static int execvpe(char *name, char **argv, char **envstr)
     int i;
     register char *cp;
     register unsigned etxtbsy = 1;
-    register eacces           = 0;
+    register int eacces       = 0;
 
     if (!pathstr && !(pathstr = EnvGet("PATH")))
         pathstr = ":/bin:/usr/bin";
@@ -142,7 +143,7 @@ int runl(int silent, char *name, ...)
     int err;
 
     va_start(ap, name);
-    err = run(name, ap, execve, silent);
+    err = run(name, (char**)ap, execve, silent);
     va_end(ap);
     return err;
 }
@@ -183,15 +184,16 @@ void sigdfl()
 #endif
 }
 
-static int run(char *name, char **a0, int (*exe)(), int silent)
+static int run(char *name, char **a0, int (*exe)(char*, char**, char**), int silent)
 {
-    register t;
+    register int t;
     int status = 0;
     static char **arg;
 
     arg = a0;
     signal(SIGCHLD, SIG_IGN);
-    if ((t = vfork()) == -1)
+    t = vfork();
+    if (t == -1)
         /* cannot fork */
         return (0x7e00);
     if (t == 0) {

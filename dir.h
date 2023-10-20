@@ -34,9 +34,9 @@ struct file {
     short dev;              /* device */
     short rdev;             /* special file parameters */
     unsigned long ino;      /* i-node */
-    unsigned long mtime;    /* modification time */
-    unsigned long atime;    /* access time */
-    unsigned long ctime;    /* status change time */
+    time_t mtime;           /* modification time */
+    time_t atime;           /* access time */
+    time_t ctime;           /* status change time */
     unsigned long infodate; /* date from info file */
 };
 

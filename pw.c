@@ -16,7 +16,7 @@ struct table {
 
 static struct table *uname;
 static struct table *grname;
-static nuname, ngrname;
+static int nuname, ngrname;
 
 static char root[] = "/";
 char *home         = root;
@@ -25,14 +25,14 @@ static int compare(const void *arg1, const void *arg2)
 {
     const struct table *a = arg1;
     const struct table *b = arg2;
-    register ak = a->key, bk = b->key;
+    register int ak = a->key, bk = b->key;
 
     return (ak < bk ? -1 : ak > bk ? 1 : 0);
 }
 
 static void initpw()
 {
-    register t, tt;
+    register int t, tt;
     register struct passwd *pw;
     register struct group *gr;
 

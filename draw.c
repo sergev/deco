@@ -51,16 +51,17 @@ void drawdir(struct dir *c, int statusflag) /* redraw window */
 
 void drawbanners()
 {
-    register i;
+    register int i;
     register char *curtime;
 
-    if (visualwin)
-        if (widewin)
+    if (visualwin) {
+        if (widewin) {
             drawframe(BASECOL(cur), cur->view, cur->status);
-        else {
+        } else {
             drawframe(left.basecol, left.view, left.status);
             drawframe(right.basecol, right.view, right.status);
         }
+    }
     VSetDim();
     VStandOut();
     VMove(0, 0);
@@ -91,7 +92,7 @@ void drawbanners()
 
 static void draw1dir(struct dir *c) /* redraw window */
 {
-    register len = c->num - c->topfile;
+    register int len = c->num - c->topfile;
 
     /* check visibility in full window mode */
     if (!visualwin || (widewin && c != cur))
@@ -183,7 +184,7 @@ static void draw1dir(struct dir *c) /* redraw window */
 
 void drawcursor()
 {
-    register col, line, w;
+    register int col, line, w;
 
     cdir = cur;
     if (cur->status) {
@@ -328,7 +329,7 @@ static void drawframe(int c, int view, int stawin)
 
 static void drawcwd(int col, char *wd)
 {
-    register len;
+    register int len;
 
     if (!visualwin)
         return;
@@ -414,7 +415,7 @@ static void drawstatus(int col, struct file *f, int view)
  */
 static void drawpage(int col, struct file *c, int n, struct dir *d)
 {
-    register i;
+    register int i;
     char *info;
 
     if (n > H)
@@ -505,11 +506,13 @@ static void drawmode(char *m, int file_uid, int file_gid)
     VPutChar(*m++);
     VPutChar(*m++);
     VPutChar(*m++);
-    if (!u)
-        if (g)
+    if (!u) {
+        if (g) {
             VSetDim();
-        else
+        } else {
             VSetPrev();
+        }
+    }
     VPutChar(*m++);
     VPutChar(*m++);
     VPutChar(*m++);

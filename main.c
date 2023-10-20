@@ -27,12 +27,8 @@ int cmdreg;        /* cursor in command line */
 int visualwin = 1; /* cursor in command line */
 int lang;
 
-#ifndef GETGROUPS_T
-#define GETGROUPS_T int
-#endif
-
-GETGROUPS_T gidlist[128]; /* groups list */
-int gidnum;               /* number of groups in list */
+gid_t gidlist[128]; /* groups list */
+int gidnum;         /* number of groups in list */
 
 struct palette dflt_palette = {
     7, 0, 7, 6, 15, 0, 15, 6, 3, 0, 0, 7,
@@ -81,7 +77,7 @@ static void doscrreg(int c);
 
 int main(int argc, char **argv, char **envp)
 {
-    register c;
+    register int c;
 
     if (argc > 2) {
         outerr("Usage: deco [dirname]\n");
@@ -556,7 +552,7 @@ static void init()
 
 int pagelen(int view)
 {
-    register h = H;
+    register int h = H;
 
     if (!widewin)
         return (view == VIEW_BRIEF ? h + h : h);
@@ -660,7 +656,7 @@ void mvcaddstr(int r, int c, char *s)
 
 int quote()
 {
-    register c, i;
+    register int c, i;
 
     c = KeyGet();
     if (c < '0' || c > '3')

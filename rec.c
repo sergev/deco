@@ -68,7 +68,7 @@ static int MAXLEN = ((unsigned int)(int)-1 >> 1) / sizeof(struct index);
 static int ffcopy(int from, int to)
 {
     char buf[512], *p;
-    register n, k;
+    register int n, k;
 
     for (;;) {
         n = read(from, buf, sizeof(buf));
@@ -93,7 +93,7 @@ static int ffcopy(int from, int to)
 
 static void tempfree(REC *r, long seek, int len) /* mark temp space free */
 {
-    register i;
+    register int i;
 
     len = (len + TEMPCELL - 1) / TEMPCELL;
     seek /= TEMPCELL;
@@ -103,7 +103,7 @@ static void tempfree(REC *r, long seek, int len) /* mark temp space free */
 
 static long tempbusy(REC *r, int len) /* search & mark temp space busy */
 {
-    register i, n;
+    register int i, n;
     register long seek;
 
     len = (len + TEMPCELL - 1) / TEMPCELL;
@@ -139,7 +139,7 @@ static long tempsave(REC *r, char *str, int len) /* save string in temp file, re
 
 static int scanline(int fd)
 {
-    register len;
+    register int len;
 
     len  = 0;
     eoln = 0;
@@ -162,7 +162,7 @@ REC *RecOpen(int fd, int wmode)
 {
     register REC *r;
     register struct index *x;
-    register i;
+    register int i;
 
     r        = (REC *)malloc(sizeof(REC));
     r->fd    = fd;
@@ -227,7 +227,7 @@ REC *RecOpen(int fd, int wmode)
 
 void RecClose(REC *r)
 {
-    register i;
+    register int i;
 
     for (i = 0; i < POOLSZ; ++i)
         if (r->map[i].busy) {
@@ -245,7 +245,7 @@ void RecClose(REC *r)
 
 int RecSave(REC *r, char *filename)
 {
-    register i, fd;
+    register int i, fd;
     register LINE *p;
     char bak[40];
 
@@ -292,7 +292,7 @@ int RecSave(REC *r, char *filename)
 
 void RecBreak(REC *r)
 {
-    register i;
+    register int i;
     register struct index *x;
 
     x = r->lindex;
@@ -302,7 +302,7 @@ void RecBreak(REC *r)
 
 static void readline(int fd, long seek, int len, LINE *rez)
 {
-    register l, n;
+    register int l, n;
     register char *s;
 
     rez->len = len;
@@ -332,7 +332,7 @@ static int freeline(REC *r)
     register struct map *m;
     register struct index *x;
     register LINE *l;
-    register mintime, minindex;
+    register int mintime, minindex;
 
     /* find free place in pool */
     for (m = r->map; m < r->map + POOLSZ; ++m)
@@ -438,7 +438,7 @@ void RecInsLine(REC *r, int n)
 {
     register struct index *x, *i;
     register struct map *m;
-    register k;
+    register int k;
 
     if (n < 0 || n > r->len)
         return;
@@ -462,7 +462,7 @@ void RecDelLine(REC *r, int n)
     register struct index *x, *i;
     register struct map *m;
     register LINE *l;
-    register k;
+    register int k;
 
     if (n < 0 || n >= r->len)
         return;
@@ -470,14 +470,17 @@ void RecDelLine(REC *r, int n)
     m = r->map;
     if (x->poolindex != NOINDEX) { /* exclude line from pool */
         l = &r->pool[x->poolindex];
-        if (x->flags & XTEMP)
+        if (x->flags & XTEMP) {
             if (l->mod) {
                 if (l->oldlen)
                     tempfree(r, x->seek, (long)l->oldlen);
-            } else if (l->len)
+            } else if (l->len) {
                 tempfree(r, x->seek, l->len);
-        if (l->len)
+            }
+        }
+        if (l->len) {
             free(l->ptr);
+        }
         m[x->poolindex].busy = 0;
     }
     for (k = 0; k < POOLSZ; ++k, ++m)

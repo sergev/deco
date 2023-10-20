@@ -42,7 +42,7 @@ void viewfile(int d, char *filename)
 
 static int textview(char *filename)
 {
-    register baseline, basecol;
+    register int baseline, basecol;
     int steplr = 8 + (COLS - 1) / 16 * 8; /* step left-right */
     int stepud = LINES - 3;               /* step up-down */
     int ccol;                             /* cursor position */
@@ -193,7 +193,7 @@ static int textview(char *filename)
 
 static void viewhead(char *filename, int line, int col)
 {
-    register i;
+    register int i;
 
     VSetDim();
     VStandOut();
@@ -211,7 +211,7 @@ static void viewhead(char *filename, int line, int col)
 
 void viewpage(int line, int col)
 {
-    register i;
+    register int i;
     int len;
 
     len = viewrec->len - line;
@@ -226,7 +226,7 @@ void viewline(int line, int col, int scrline)
     register LINE *l;
     register char *p;
     char *e;
-    register len;
+    register int len;
 
     VMove(scrline, 0); /* move to line */
     VClearLine();      /* clear it */
@@ -275,7 +275,7 @@ void viewline(int line, int col, int scrline)
 
 void viewchar(int c)
 {
-    register hibit;
+    register int hibit;
 
     if (c == ' ') {
         if (viewhex || viewtabs) {
@@ -352,7 +352,7 @@ int offset(int l, int n)
 {
     LINE *p;
     register char *s, *e;
-    register len;
+    register int len;
 
     if (!(p = RecGet(viewrec, l)))
         return (0);
@@ -382,7 +382,7 @@ int column(int l, int n)
 {
     LINE *p;
     register char *s, *e;
-    register len;
+    register int len;
 
     if (!(p = RecGet(viewrec, l)))
         return (0);

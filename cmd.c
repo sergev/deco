@@ -265,7 +265,7 @@ void view()
 {
     char buf[80];
     register char *name = cur->cat[cur->curfile].name;
-    register d;
+    register int d;
 
     if (userview) {
         strcpy(buf, viewname);
@@ -291,7 +291,7 @@ void viewinfo()
 {
     char buf[80];
     char name[512];
-    register d;
+    register int d;
 
     sprintf(name, "%s/.info/%s", cur->cwd, cur->cat[cur->curfile].name);
     if (userview) {
@@ -316,7 +316,7 @@ void viewinfo()
 
 static void editfnam(char *name)
 {
-    register d;
+    register int d;
     register char *p;
     char buf[80];
     struct stat st;
@@ -471,7 +471,7 @@ void shell()
 
 int tagged()
 {
-    register i, n;
+    register int i, n;
 
     for (i = n = 0; i < cur->num; ++i)
         if (cur->cat[i].tag)
@@ -484,7 +484,7 @@ void copy()
     char buf[80];
     char *name;
     register struct file *p;
-    register c;
+    register int c;
     int done, all, ch;
     int exd, exf;
 
@@ -571,7 +571,7 @@ void makelink()
     char buf[80];
     char *name;
     register struct file *p;
-    register c;
+    register int c;
     int done;
     int exd, exf;
 
@@ -641,7 +641,7 @@ void makeslink()
     char buf[80];
     char *name;
     register struct file *p;
-    register c;
+    register int c;
     int done;
     int exd, exf;
 
@@ -711,7 +711,7 @@ void renmove()
     char buf[MAXPATHLEN + 20];
     char *name = 0;
     register struct file *p;
-    register c;
+    register int c;
     int done, all, ch;
     int exd, exf;
 
@@ -835,7 +835,7 @@ void delete()
 {
     char buf[80];
     register struct file *p;
-    register c;
+    register int c;
 
     c = tagged();
     if (c) {
@@ -988,7 +988,7 @@ breakloop:
 
 static int cmpfil(char *d1, char *f1, char *d2, char *f2)
 {
-    register i;
+    register int i;
     int fd1, fd2;
     char buf1[512], buf2[512];
     int n1, n2, rez;
@@ -1023,7 +1023,7 @@ breakloop:
 
 void syscmd(char *s)
 {
-    register status, sig;
+    register int status, sig;
 
     if (metas(s)) {
         if (usecshell)

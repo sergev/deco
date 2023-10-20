@@ -26,23 +26,23 @@ struct menu;
 
 extern struct dir left, right; /* left and right directories */
 extern struct dir *cur;        /* current directory */
-extern widewin;                /* wide window mode */
-extern H;                      /* file window height */
-extern cmdreg;                 /* command line mode */
+extern int widewin;            /* wide window mode */
+extern int H;                  /* file window height */
+extern int cmdreg;             /* command line mode */
 extern char command[];         /* command line */
-extern cpos;                   /* command line cursor */
+extern int cpos;               /* command line cursor */
 extern char *user;             /* user name */
 extern char *group;            /* user group name */
 extern char *tty;              /* tty name */
 extern char *machine;          /* machine name */
-extern visualwin;              /* cursor in command line */
-extern showhidden;             /* show hidden files ".*" */
-extern uid;                    /* real user id */
-extern main_pid;               /* our process id */
-extern ppid;                   /* parent id */
-extern lang;                   /* language */
+extern int visualwin;          /* cursor in command line */
+extern int showhidden;         /* show hidden files ".*" */
+extern int uid;                /* real user id */
+extern int main_pid;           /* our process id */
+extern int ppid;               /* parent id */
+extern int lang;               /* language */
 extern char editname[40], viewname[40];
-extern useredit, userview, usecshell;
+extern int useredit, userview, usecshell;
 extern int viewraw, viewhex, viewtabs;
 extern char *home;
 extern int errno;
@@ -104,13 +104,13 @@ void sigign(void);
 void sigdfl(void);
 void outerr(char *msg, ...);
 int runv(int silent, char *name, char **a0);
-char *getmachine();
+char *getmachine(void);
 const char *extension(const char *p);
 char *ltoac(long l);
 char *basename(char *p);
 char *strtail(char *p, int delim, int maxlen);
 int strbcmp(char *s, char *b);
-int match(unsigned char *name, unsigned char *pat);
+int match(char *name, char *pat);
 int getmenu(void);
 void downmenu(struct menu *m);
 char *timestr(long tim);
@@ -135,7 +135,7 @@ int doexec(char *str);
 void runset(char *dest);
 void runarg(char *name);
 int rundone(char *name, char *a0, char *a1, char *a2);
-void runcancel();
+void runcancel(void);
 int runl(int silent, char *name, ...);
 void findfile(struct dir *d, char *name);
 int compfile(const void *arg1, const void *arg2);
@@ -156,42 +156,42 @@ char *filesize(struct file *f);
 char *filedate(long d);
 void execmd(int hit, int savhist);
 void directory(int k, int sk);
-void switchcmdreg();
-void switchpanels();
-void setstatus();
+void switchcmdreg(void);
+void switchpanels(void);
+void setstatus(void);
 void reread(int k, int sk);
-void setdwid();
-void view();
-void edit();
-void menuedit();
-void extedit();
-void quit();
-void swappanels();
-void copy();
-void renmove();
-void makedir();
-void delete();
-void findname();
-void tagall();
-void untagall();
-void drawcmd();
-void namecmd();
-void delcmd();
-void homecmd();
-void endcmd();
-void leftcmd();
-void upcmd();
-void downcmd();
-void nextcmd();
-void prevcmd();
-void histmenu();
+void setdwid(void);
+void view(void);
+void edit(void);
+void menuedit(void);
+void extedit(void);
+void quit(void);
+void swappanels(void);
+void copy(void);
+void renmove(void);
+void makedir(void);
+void delete(void);
+void findname(void);
+void tagall(void);
+void untagall(void);
+void drawcmd(void);
+void namecmd(void);
+void delcmd(void);
+void homecmd(void);
+void endcmd(void);
+void leftcmd(void);
+void upcmd(void);
+void downcmd(void);
+void nextcmd(void);
+void prevcmd(void);
+void histmenu(void);
 void drawdir(struct dir *c, int statusflag);
-void drawcursor();
-void undrawcursor();
+void drawcursor(void);
+void undrawcursor(void);
 void excommand(char *cp, char *fname);
-void usermenu();
-void readinitfile();
-void genhelp();
+void usermenu(void);
+void readinitfile(void);
+void genhelp(void);
 int hexview(char *filename);
 void runmenu(int mkey);
 void jobcmd(int pid, char *cmd);

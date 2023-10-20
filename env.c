@@ -29,7 +29,7 @@ static char *findvar(char *name, char ***ptr);
 void EnvInit(char **env)
 {
     register char **p;
-    register i;
+    register int i;
 
     if (EnvVector) {
         for (p = EnvVector; *p; ++p)

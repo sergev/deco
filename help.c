@@ -244,7 +244,7 @@ void genhelp()
 
 void runhelp(char *name)
 {
-    register r, c, w, h;
+    register int r, c, w, h;
     BOX *box;
     register struct helptab *p;
     struct help *hp;
@@ -337,7 +337,7 @@ static int findhelpfile(char *filename, char *name, char *dir)
 static void inithelp(struct help *hp)
 {
     register struct helptab *p;
-    register n, fd;
+    register int n, fd;
     register char **q;
     char filename[60];
     char buf[1024];

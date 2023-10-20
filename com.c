@@ -14,12 +14,12 @@
 #include "env.h"
 #include "scr.h"
 
-#define SWAP(a, b)  \
-    {               \
-        register t; \
-        t = a;      \
-        a = b;      \
-        b = t;      \
+#define SWAP(a, b)      \
+    {                   \
+        register int t; \
+        t = a;          \
+        a = b;          \
+        b = t;          \
     }
 
 #define HISTSZ 16 /* length of history */
@@ -27,7 +27,7 @@
 char command[CMDLEN]; /* command string */
 
 static char *history[HISTSZ]; /* previous executed commands */
-static hpos;                  /* history pointer */
+static int hpos;              /* history pointer */
 static char *prompt;
 
 static struct {
@@ -111,7 +111,7 @@ static int insname(char *name)
 
 void namecmd()
 {
-    register i, savepos;
+    register int i, savepos;
 
     if (command[cpos])
         return;
@@ -129,7 +129,7 @@ void namecmd()
 
 void inscmd(int key)
 {
-    register k;
+    register int k;
 
     for (k = cpos; command[k]; ++k)
         SWAP(key, command[k]);
@@ -142,7 +142,7 @@ void inscmd(int key)
 
 void delcmd()
 {
-    register k;
+    register int k;
 
     if (!command[cpos])
         return;
@@ -235,12 +235,12 @@ void prevcmd()
 
 void histcmd() /* store command in history */
 {
-    register n;
+    register int n;
 
     /* find repeated command */
     for (n = 0; n < HISTSZ && history[n]; ++n) {
         if (*history[n] == *command && !strcmp(history[n], command)) {
-            register k;
+            register int k;
             char *p;
 
             p = history[n];
@@ -268,7 +268,7 @@ void histcmd() /* store command in history */
 
 void jobcmd(int pid, char *cmd) /* store command in job list */
 {
-    register n;
+    register int n;
 
     /* forget oldest command */
     if (job[HISTSZ - 1].command) {
@@ -345,7 +345,7 @@ void execmd(int hit, int savhist)
 
 static int inputcmd(int plen)
 {
-    register c;
+    register int c;
     char cc;
 
     outprompt();
@@ -541,8 +541,8 @@ static char *getpar(char *s)
 
 static void jobmenu()
 {
-    register ch, nh;
-    int n, histwid, histrow, histcol, execit, status = 0;
+    register int ch, nh;
+    int n, histwid, histrow, histcol, status = 0;
     BOX *box, *curbox;
     char buf[256], buf2[256];
 
@@ -579,7 +579,6 @@ static void jobmenu()
     mvcaddstr(histrow - 1, 40, " Jobs ");
 
     for (ch = 0; ch < nh; ++ch) {
-        char buf[10];
         sprintf(buf, "[%d]", job[nh - ch - 1].pid);
         VMove(histrow + ch, histcol + 1 + 6 - strlen(buf));
         VPutString(buf);
@@ -605,12 +604,6 @@ static void jobmenu()
         case cntrl(']'): /* redraw screen */
             VRedraw();
             continue;
-        case cntrl('J'):
-            execit = 0;
-            break;
-        case cntrl('M'):
-            execit = 1;
-            break;
         case cntrl('C'):
         case cntrl('['):
         case meta('J'): /* f0 */
@@ -676,7 +669,7 @@ static void jobmenu()
 
 void histmenu()
 {
-    register ch, nh;
+    register int ch, nh;
     int n, histwid, histrow, histcol, execit = 0;
     BOX *box, *curbox;
 
@@ -768,7 +761,7 @@ void histmenu()
 
 static int esclen(char *str)
 {
-    register c, count;
+    register int c, count;
 
     for (count = 0; (c = 0377 & *str); ++count, ++str)
         if (c < ' ' || c == 0177)
@@ -780,7 +773,7 @@ static int esclen(char *str)
 
 static void putescstr(char *str, int maxlen)
 {
-    register c;
+    register int c;
 
     if (maxlen <= 0)
         maxlen = 9999;
@@ -811,7 +804,7 @@ static void wresccmd(char *str, int n)
 {
     char buf[CMDLEN * 2];
     register char *p;
-    register c;
+    register int c;
 
     for (p = buf; --n >= 0; ++str) {
         c = 0377 & *str;

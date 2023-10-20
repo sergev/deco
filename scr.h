@@ -23,7 +23,7 @@ typedef struct {
 
 typedef long CURSOR;
 
-extern LINES, COLS;
+extern int LINES, COLS;
 extern WINDOW VScreen;
 
 #define VMPutChar(y, x, ch)    (VMove(y, x), VPutChar(ch))

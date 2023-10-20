@@ -112,7 +112,7 @@ int getmenu()
 
 static void drawhead(int nm)
 {
-    register i, reverse;
+    register int i, reverse;
 
     VSetDim();
     reverse = VStandOut();
@@ -146,7 +146,7 @@ static void clrmenu(struct menu *m)
 
 static void drawmenu(struct menu *m)
 {
-    register i, reverse;
+    register int i, reverse;
 
     VClearBox(1, m->col - 1, m->hgh + 3, m->wid + 4);
     VSetBold();
@@ -200,7 +200,7 @@ void downmenu(struct menu *m)
 
 static int hotkey(int c, struct menu *m)
 {
-    register nsm, ret;
+    register int nsm, ret;
 
     if (c >= 'A' && c <= 'Z') {
         c += 'a' - 'A';

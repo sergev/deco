@@ -5,12 +5,12 @@
 #include "rec.h"
 #include "scr.h"
 
-static editmodflg;
+static int editmodflg;
 
 extern char viewsrch[SEARCHSZ]; /* search string */
-extern viewraw;                 /* raw mode */
-extern viewtabs;                /* visible spaces mode */
-extern viewfd;                  /* file descriptor */
+extern int viewraw;             /* raw mode */
+extern int viewtabs;            /* visible spaces mode */
+extern int viewfd;              /* file descriptor */
 extern REC *viewrec;
 
 static void clearline(REC *r, int line);
@@ -35,7 +35,7 @@ static int charcode(int l, int n)
 
 static void edithead(char *filename, int line, int col, int off)
 {
-    register i;
+    register int i;
 
     VSetDim();
     VStandOut();
@@ -69,7 +69,7 @@ static int lastpos(int n)
 
 void editfile(int d, char *filename, char *basename)
 {
-    register baseline, basecol;
+    register int baseline, basecol;
     int stepud = LINES - 3; /* step up-down */
     int sline, soff;        /* search position */
     int ccol, lastccol, c;

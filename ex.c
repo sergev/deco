@@ -81,9 +81,9 @@ struct umenu {
 };
 
 static struct umenu um[EXSZ];
-static nm, menuwid, menucol, menurow;
+static int nm, menuwid, menucol, menurow;
 static struct ex ex[EXSZ];
-static nex = -1;
+static int nex = -1;
 static char *bufp;
 
 static void skip()
@@ -204,7 +204,7 @@ static void readex()
 
 static void initex()
 {
-    register fd, n;
+    register int fd, n;
     char fname[80];
     char buf[BUFSZ];
 
@@ -242,7 +242,7 @@ static void initex()
 
 int expandtagged(char *cp)
 {
-    register i, n;
+    register int i, n;
     register char *s;
 
     for (i = n = 0; i < cur->num; ++i)
@@ -323,7 +323,7 @@ void excommand(char *cp, char *fname)
 
 static void freeudm()
 {
-    register n;
+    register int n;
 
     for (n = 0; n < nm; ++n) {
         if (um[n].str)
@@ -335,7 +335,7 @@ static void freeudm()
 
 static void printudm()
 {
-    register n;
+    register int n;
 
     for (n = 0; n < nm; ++n) {
         VMove(menurow + n, menucol + 1);
@@ -380,7 +380,7 @@ static void printudm()
 
 static int openmenu(char *filename)
 {
-    register fd;
+    register int fd;
     char fname[80];
 
     if (filename)
@@ -406,7 +406,7 @@ static int openmenu(char *filename)
 
 static int initudm(char *filename, char *scale)
 {
-    register n;
+    register int n;
     register char *p;
     int fd;
     char buf[BUFSZ];
@@ -476,7 +476,7 @@ static int initudm(char *filename, char *scale)
 static char *runudm(char *scale)
 {
     /* user defined menu */
-    register key, cm;
+    register int key, cm;
     BOX *box, *curbox;
 
     box = VGetBox(menurow - 2, menucol - 4, nm + 4, menuwid + 8);
@@ -601,7 +601,7 @@ static char *getlin()
 
 void readinitfile()
 {
-    register fd, n;
+    register int fd, n;
     register char *line;
     struct dir *d;
     char fname[80];
@@ -810,7 +810,7 @@ void readinitfile()
 
 void writeinitfile()
 {
-    register fd;
+    register int fd;
     char fname[80];
     char buf[BUFSZ];
 

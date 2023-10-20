@@ -18,7 +18,7 @@
 #define STOREINT(p, nn)                        \
     {                                          \
         register char *cp = p;                 \
-        register n        = nn;                \
+        register int n    = nn;                \
         *cp++             = n / 10 % 10 + '0'; \
         *cp               = n % 10 + '0';      \
     }
@@ -34,7 +34,7 @@ char *timestr(long tim)
     if (*p == '0')
         *p = ' ';
 
-    strncpy(p + 3, "JanFebMarAprMayJunJulAugSepOctNovDec" + t->tm_mon * 3, 3);
+    strncpy(p + 3, &"JanFebMarAprMayJunJulAugSepOctNovDec"[t->tm_mon * 3], 3);
     STOREINT(p + 9, t->tm_year);
     if (t->tm_year < 100) {
         p[7] = '1';
@@ -52,7 +52,7 @@ char *timestr(long tim)
 char *getmachine()
 {
     static char buf[64];
-    register f;
+    register int f;
     register char *p;
 
 #if HAVE_GETHOSTNAME
@@ -90,7 +90,7 @@ char *ltoac(long l)
     char num[15];
     static char buf[15];
     register char *p, *q;
-    register n;
+    register int n;
 
     sprintf(num, "%ld", l);
     for (p = num; *p; ++p)
@@ -182,7 +182,7 @@ void outerr(char *s, ...)
  * [^a-z]  - symbol out of range
  * [!a-z]  - symbol out of range
  */
-int match(unsigned char *name, unsigned char *pat)
+int match(char *name, char *pat)
 {
     int ok, negate_range, matched;
 

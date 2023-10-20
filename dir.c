@@ -51,7 +51,7 @@ static void chdirup(char *name);
 static char *prepend(char *p, char *str);
 static char *getcwdname(char *pathname);
 static void retag(struct dir *d, struct dir *od);
-static int fgetinfo(char *info, int maxlen, char *rinfo, int rmaxlen, long *date, FILE *fd);
+static int fgetinfo(char *info, int maxlen, char *rinfo, int rmaxlen, unsigned long *date, FILE *fd);
 
 /*
  *      Compare files. Used in call to qsort.
@@ -61,7 +61,7 @@ int compfile(const void *arg1, const void *arg2)
 {
     const struct file *a = arg1;
     const struct file *b = arg2;
-    register atype, btype;
+    register int atype, btype;
     int rez;
 
     if (compdir->revsort) {
@@ -182,7 +182,7 @@ static char *getcwdname(char *pathname)
     char upname[MAXPATHLEN + MAXNAMLEN];
     char myname[MAXPATHLEN];
     char *upptr, *myptr;
-    struct stat root, up, cur, f;
+    struct stat root, up, this, f;
     register struct direct *rec;
     DIR *dir;
 
@@ -191,8 +191,8 @@ static char *getcwdname(char *pathname)
     *myptr = *upptr = 0;
     upptr           = prepend(upptr, "./");
     stat("/", &root);
-    stat(upptr, &cur);
-    while (cur.st_dev != root.st_dev || cur.st_ino != root.st_ino) {
+    stat(upptr, &this);
+    while (this.st_dev != root.st_dev || this.st_ino != root.st_ino) {
         upptr = prepend(upptr, "../");
         dir   = opendir(upptr);
         if (!dir) {
@@ -205,8 +205,8 @@ static char *getcwdname(char *pathname)
                 strcpy(pathname, "Cannot find path");
                 return (0);
             }
-            if (cur.st_dev == up.st_dev) {
-                if (cur.st_ino == rec->d_ino)
+            if (this.st_dev == up.st_dev) {
+                if (this.st_ino == rec->d_ino)
                     break;
                 continue;
             }
@@ -216,13 +216,13 @@ static char *getcwdname(char *pathname)
             strcpy(&upname[MAXPATHLEN - 1], rec->d_name);
             lstat(upptr, &f);
             upname[MAXPATHLEN - 1] = 0;
-            if (cur.st_ino == f.st_ino && cur.st_dev == f.st_dev)
+            if (this.st_ino == f.st_ino && this.st_dev == f.st_dev)
                 break;
         }
         myptr    = prepend(myptr, rec->d_name);
         *--myptr = '/';
         closedir(dir);
-        cur = up;
+        this = up;
     }
     strcpy(pathname, *myptr ? myptr : "/");
     return (pathname);
@@ -243,11 +243,13 @@ int setdir(struct dir *d, char *dirname)
     struct stat st;
 
     /* change directory */
-    if (dirname)
-        if (chdir(dirname) < 0)
+    if (dirname) {
+        if (chdir(dirname) < 0) {
             error("Cannot chdir to %s", dirname);
-        else
+        } else {
             getcwdname(d->cwd);
+        }
+    }
     chdirup(d->cwd);
     d->shortcwd = strtail(d->cwd, '/', 35);
     stat(d->cwd, &st);
@@ -608,7 +610,7 @@ void setinfo(struct file *f, struct dir *d)
  * Get multistring from the file.
  * The continuation lines are indented by spaces.
  */
-static int fgetinfo(char *info, int maxlen, char *rinfo, int rmaxlen, long *date, FILE *fd)
+static int fgetinfo(char *info, int maxlen, char *rinfo, int rmaxlen, unsigned long *date, FILE *fd)
 {
     char *p;
     int n;
@@ -628,7 +630,7 @@ again:
         ISDIGIT(info[4]) && ISDIGIT(info[5])) {
         char *q = info;
 
-        *date = strtol(info, 0, 0);
+        *date = strtoul(info, 0, 0);
         for (p = info + 6; *p == ' ' || *p == '\t'; ++p)
             continue;
         while (*p)

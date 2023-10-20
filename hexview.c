@@ -8,12 +8,12 @@
 
 #define GETHEX(x) ((x) >= 'A' ? ((x) & 15) + 9 : (x) & 15)
 
-extern viewfd;
-extern viewraw;                 /* raw mode */
-extern viewhlen;                /* number of hex lines */
+extern int viewfd;
+extern int viewraw;             /* raw mode */
+extern int viewhlen;            /* number of hex lines */
 extern char viewsrch[SEARCHSZ]; /* search string */
 extern char viewsbuf[SEARCHSZ]; /* search string buffer */
-extern viewsbsz;                /* search string size */
+extern int viewsbsz;            /* search string size */
 extern long viewseek;
 extern REC *viewrec;
 
@@ -26,7 +26,7 @@ static int cvtsrch(char *from, char *to);
 
 int hexview(char *filename) /* hexadecimal viewer */
 {
-    register baseline;
+    register int baseline;
     register char *p;
     int stepud = LINES - 3; /* step up-down */
     int sline, soff;        /* search position */
@@ -143,7 +143,7 @@ int hexview(char *filename) /* hexadecimal viewer */
 
 static void viewhhead(char *filename, int line)
 {
-    register i;
+    register int i;
 
     VSetDim();
     VStandOut();
@@ -177,7 +177,7 @@ static void viewhline(int line, int i)
 static void viewhpage(int line)
 {
     char buf[1024], *p;
-    register i;
+    register int i;
     int n;
 
     lseek(viewfd, line * 16L, 0);
@@ -193,7 +193,7 @@ static void viewhpage(int line)
 
 static void prhline(char *p, int len)
 {
-    register i, c;
+    register int i, c;
 
     if (len > 16)
         len = 16;
@@ -245,7 +245,7 @@ static int hsearch(int l, int c, int *pline, int *pcol)
 
 static int cvtsrch(char *from, char *to)
 {
-    register c, x, count;
+    register int c, x, count;
 
     count = 0;
     for (count = 0; (c = *from++); *to++ = c, ++count)

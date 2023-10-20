@@ -23,4 +23,4 @@ struct menu {
 
 extern struct menu menu[]; /* main menu array */
 
-extern nmenu; /* current menu */
+extern int nmenu; /* current menu */

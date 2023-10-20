@@ -151,9 +151,9 @@ int GraphMode    = 1;
 int TtyUpperCase = 0;
 
 static WINDOW curscr;
-static scrool, rscrool;
-static beepflag;
-static prevattr;
+static int scrool, rscrool;
+static int beepflag;
+static int prevattr;
 
 static short ctab[16], btab[16];
 static char *colorbuf, *colorp;
@@ -167,7 +167,7 @@ static char *KS, *KE;
 
 static char *CL, *CM, *SE, *SO, *TE, *TI, *VE, *VS, *AL, *DL, *IS, *IF, *FS, *MD, *MH, *ME, *MR,
     *CF, *CB, *AF, *AB, *Sf, *Sb, *MF, *MB;
-static NF, NB;
+static int NF, NB;
 static char MS, C2;
 
 static char Cy;
@@ -175,7 +175,7 @@ static char *Cs, *Ce, *Ct;
 
 char VCyrInputTable['~' - ' ' + 1];
 static char VCyrOutputTable[64];
-static cyroutput;
+static int cyroutput;
 
 int LINES; /* number of lines on screen */
 int COLS;  /* number of columns */
@@ -235,7 +235,7 @@ struct CapTab outtab[] = {
     // clang-format on
 };
 
-static char *skipdelay();
+static char *skipdelay(char*);
 
 static char linedraw[11] = {
     // clang-format off
@@ -432,7 +432,7 @@ void VRestore()
 
 static void delwin(WINDOW *win)
 {
-    register i;
+    register int i;
 
     for (i = 0; i < LINES && win->y[i]; i++)
         free(win->y[i]);
@@ -446,14 +446,14 @@ static void delwin(WINDOW *win)
 static int newwin(WINDOW *win)
 {
     register short *sp;
-    register i;
+    register int i;
 
     if (!makenew(win))
         return (0);
     for (i = 0; i < LINES; i++) {
         win->y[i] = (short *)malloc((int)(COLS * sizeof(short)));
         if (!win->y[i]) {
-            register j;
+            register int j;
 
             for (j = 0; j < i; j++)
                 free(win->y[i]);
@@ -472,7 +472,7 @@ static int newwin(WINDOW *win)
 
 static int makenew(WINDOW *win)
 {
-    register i;
+    register int i;
 
     if (!(win->y = (short **)malloc((int)(LINES * sizeof(short *)))))
         return (0);
@@ -501,7 +501,7 @@ static int makenew(WINDOW *win)
 void VRedraw()
 {
     register short wy;
-    register y, x;
+    register int y, x;
 
     tputs(CL);
     y           = curscr.cury;
@@ -604,7 +604,7 @@ static void makech(int y)
 
 static void doscrool()
 {
-    register line, n, topline, botline;
+    register int line, n, topline, botline;
     int mustreset = 0;
 
     for (line = 0; line < LINES; ++line) {
@@ -711,7 +711,7 @@ static void doscrool()
 static void sclln(int y1, int y2, int n)
 {
     register short *end, *temp;
-    register y;
+    register int y;
 
     if (n > 0) {
         for (y = y2 - n + 1; y <= y2; ++y) {
@@ -743,7 +743,7 @@ static void sclln(int y1, int y2, int n)
 void VDelLine(int n)
 {
     register short *temp;
-    register y;
+    register int y;
     register short *end;
 
     if (n < 0 || n >= LINES)
@@ -771,7 +771,7 @@ void VDelLine(int n)
 void VInsLine(int n)
 {
     register short *temp;
-    register y;
+    register int y;
     register short *end;
 
     if (n < 0 || n >= LINES)
@@ -832,9 +832,9 @@ void VMove(int y, int x)
 void VClearLine()
 {
     register short *sp, *end;
-    register y, x;
+    register int y, x;
     register short *maxx;
-    register minx;
+    register int minx;
 
     y    = VScreen.cury;
     x    = VScreen.curx;
@@ -864,9 +864,9 @@ void VClear()
 
 static void screrase()
 {
-    register y;
+    register int y;
     register short *sp, *end, *maxx;
-    register minx;
+    register int minx;
 
     for (y = 0; y < LINES; y++) {
         minx = NOCHANGE;
@@ -928,7 +928,7 @@ static char *makecolor(int c, int b)
 
 static void initcolor()
 {
-    register i;
+    register int i;
 
     if (NF <= 0 || NB <= 0 || !CF || (!CB && !C2))
         return;
@@ -1006,7 +1006,7 @@ static void initbold()
 
 static void initgraph()
 {
-    register i;
+    register int i;
     register char *g = 0;
 
     if (G1)
@@ -1117,13 +1117,15 @@ static void resetattr(int c)
 static void setattr(int c)
 {
     c &= DIM | BOLD | STANDOUT | GRAPH;
-    if ((c & GRAPH) != (curscr.flgs & GRAPH))
+    if ((c & GRAPH) != (curscr.flgs & GRAPH)) {
         if (c & GRAPH) {
             tputs(GS);
             resetattr(c);
             return;
-        } else
+        } else {
             tputs(GE);
+        }
+    }
     if ((c & (DIM | BOLD | STANDOUT)) != (curscr.flgs & (DIM | BOLD | STANDOUT)))
         switch (c & (DIM | BOLD | STANDOUT)) {
         case 0:
@@ -1193,7 +1195,7 @@ int VSetBold()
 
 void VPutChar(int c)
 {
-    register x, y;
+    register int x, y;
 
     x = VScreen.curx;
     y = VScreen.cury;
@@ -1268,7 +1270,7 @@ static char *skipdelay(char *cp)
 
 static void tputs(char *cp)
 {
-    register c;
+    register int c;
 
     if (!cp)
         return;
@@ -1337,7 +1339,7 @@ void VSetCursor(CURSOR c)
 
 BOX *VGetBox(int y, int x, int ny, int nx)
 {
-    register xx, yy;
+    register int xx, yy;
     register short *p, *q;
     BOX *box;
 
@@ -1359,7 +1361,7 @@ BOX *VGetBox(int y, int x, int ny, int nx)
 
 void VUngetBox(BOX *box)
 {
-    register xx, yy;
+    register int xx, yy;
     register short *q;
 
     for (yy = 0; yy < box->ny; ++yy) {
@@ -1371,7 +1373,7 @@ void VUngetBox(BOX *box)
 
 void VPrintBox(BOX *box)
 {
-    register xx, yy;
+    register int xx, yy;
     register short *q;
 
     for (yy = 0; yy < box->ny; ++yy) {
@@ -1389,7 +1391,7 @@ void VFreeBox(BOX *box)
 
 void VClearBox(int r, int c, int nr, int nc)
 {
-    register i;
+    register int i;
 
     for (; --nr >= 0; ++r)
         for (i = nc; --i >= 0;)
@@ -1398,7 +1400,7 @@ void VClearBox(int r, int c, int nr, int nc)
 
 void VFillBox(int r, int c, int nr, int nc, int sym)
 {
-    register i;
+    register int i;
 
     for (; --nr >= 0; ++r)
         for (i = nc; --i >= 0;)
@@ -1407,7 +1409,7 @@ void VFillBox(int r, int c, int nr, int nc, int sym)
 
 void VHorLine(int r, int c, int nc)
 {
-    register sym;
+    register int sym;
 
     sym = (linedraw[0] & 0377) | GRAPH | VScreen.flgs;
     while (--nc >= 0)
@@ -1416,7 +1418,7 @@ void VHorLine(int r, int c, int nc)
 
 void VVertLine(int c, int r, int nr)
 {
-    register sym;
+    register int sym;
 
     sym = (linedraw[1] & 0377) | GRAPH | VScreen.flgs;
     while (--nr >= 0)
@@ -1480,7 +1482,7 @@ void VDrawBox(int r, int c, int nr, int nc)
 void VExpandString(char *s, char *d)
 {
     /* expand string s to d substituting \1, \2, \3, \16, \17 */
-    register c;
+    register int c;
     int bright; /* 1=bold, 0=normal, 2=dim */
     int reverse;
 

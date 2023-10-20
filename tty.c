@@ -78,8 +78,10 @@ static struct tchars oldtchars, newtchars;
 static struct ltchars oldchars, newchars;
 #endif
 
+#ifndef OXTABS
 #ifdef TAB3
 #define OXTABS TAB3
+#endif
 #endif
 
 int TtyUpperCase;
