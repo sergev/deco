@@ -3,12 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
 #include "deco.h"
 
 #define SYSTEMID "/etc/systemid"
@@ -55,10 +51,9 @@ char *getmachine()
     register int f;
     register char *p;
 
-#if HAVE_GETHOSTNAME
     if (gethostname(buf, sizeof(buf) - 1) >= 0)
         return (buf);
-#endif
+
     if ((f = open(SYSTEMID, 0)) >= 0) {
         read(f, buf, sizeof(buf) - 1);
         close(f);

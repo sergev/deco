@@ -5,15 +5,9 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
 #include "deco.h"
 #include "env.h"
 
@@ -153,7 +147,7 @@ int runv(int silent, char *name, char **a0)
     return (run(name, a0, execvpe, silent));
 }
 
-RETSIGTYPE sigchild(int sig)
+void sigchild(int sig)
 {
     int status = 0;
 
@@ -192,7 +186,7 @@ static int run(char *name, char **a0, int (*exe)(char*, char**, char**), int sil
 
     arg = a0;
     signal(SIGCHLD, SIG_IGN);
-    t = vfork();
+    t = fork();
     if (t == -1)
         /* cannot fork */
         return (0x7e00);

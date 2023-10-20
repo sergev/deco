@@ -20,9 +20,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include "scr.h"
 
 static struct KeyMap *km;
@@ -115,7 +113,7 @@ int KeyGetChar()
     return (c & 0377);
 }
 
-static RETSIGTYPE badkey()
+static void badkey()
 {
     alarm(oldalarm);
     longjmp(wakeup, -1);

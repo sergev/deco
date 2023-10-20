@@ -1,13 +1,3 @@
-#undef GC /* use Boehm memory allocator */
-
-#if !HAVE_TCSETPGRP
-#define tcsetpgrp(fd, pgrp) ioctl(fd, TIOCSPGRP, &pgrp)
-#endif
-
-#if !HAVE_KILLPG
-#define killpg(pid, sig) kill(-pid, sig)
-#endif
-
 /* width of directory window */
 
 #define PAGEWID (widewin ? 77 : 39)
@@ -77,21 +67,6 @@ struct palette {
 #define mcheck(array, type, bound, quant, index) \
     if ((index) >= (bound))                      \
     (array) = (type)realloc(array, (int)((bound) += (quant)) * (int)sizeof(*(array)))
-
-#if !HAVE_MEMCPY
-#define memcpy(t, f, n) bcopy(f, t, n)
-#define memcmp(a, b, n) bcmp(a, b, n)
-#endif
-
-#ifdef GC
-#include <gc.h>
-#define malloc(n)     GC_malloc(n)
-#define calloc(n, m)  GC_malloc((n) * (m))
-#define realloc(a, n) ((a) ? GC_realloc(a, n) : GC_malloc(n))
-#define free(a) \
-    if (a)      \
-    GC_free(a)
-#endif
 
 void error(char *s, ...);
 void message(char *name, char *s, ...);
@@ -195,5 +170,5 @@ void genhelp(void);
 int hexview(char *filename);
 void runmenu(int mkey);
 void jobcmd(int pid, char *cmd);
-RETSIGTYPE sigchild(int sig);
+void sigchild(int sig);
 int mygroup(int gid);

@@ -3,12 +3,8 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
 #include "deco.h"
 #include "dir.h"
 #include "env.h"

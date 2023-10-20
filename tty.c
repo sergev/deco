@@ -10,34 +10,9 @@
  *      TtyFlushInput ()
  *              - flush input queue.
  */
-
-#if HAVE_TERMIOS_H
 #include <sys/termios.h>
-#if HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
-#endif
-#define HAVE_TERMIO_H 1
-#define termio        termios
-#ifdef sun
-#undef TCGETA
-#undef TCSETA
-#undef TCSETAW
-#undef TIOCSLTC
-#define TCGETA  TCGETS
-#define TCSETA  TCSETS
-#define TCSETAW TCSETSW
-#endif
-#else
-#if HAVE_TERMIO_H
-#include <termio.h>
-#else
-#include <sgtty.h>
-#endif
-#endif
-
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include "scr.h"
 
 #ifndef TCGETA
@@ -64,15 +39,7 @@
 
 #define CHANNEL 2 /* output file descriptor */
 
-#if HAVE_TERMIO_H
-static struct termio oldtio, newtio;
-#else
-static struct sgttyb tty;
-static ttyflags;
-#ifdef TIOCSETC
-static struct tchars oldtchars, newtchars;
-#endif
-#endif
+static struct termios oldtio, newtio;
 
 #ifdef TIOCSLTC
 static struct ltchars oldchars, newchars;
@@ -88,17 +55,11 @@ int TtyUpperCase;
 
 #define NOCHAR 0
 
-#if HAVE_TCGETATTR
 #define GET(addr) tcgetattr(CHANNEL, addr)
 #define SET(addr) tcsetattr(CHANNEL, TCSADRAIN, addr)
-#else
-#define GET(addr) ioctl(CHANNEL, TCGETA, addr)
-#define SET(addr) ioctl(CHANNEL, TCSETAW, addr)
-#endif
 
 void TtySet()
 {
-#if HAVE_TERMIO_H
     if (GET(&oldtio) < 0)
         return;
     if (oldtio.c_oflag & OLCUC)
@@ -124,27 +85,7 @@ void TtySet()
     newtio.c_cc[VDISCARD] = NOCHAR;
 #endif
     SET(&newtio);
-#else
-    if (gtty(CHANNEL, &tty) < 0)
-        return;
-    if (tty.sg_flags & LCASE)
-        TtyUpperCase = 1; /* uppercase on output */
-    ttyflags = tty.sg_flags;
-    tty.sg_flags &= ~(XTABS | ECHO | CRMOD | LCASE);
-#ifdef CBREAK
-    tty.sg_flags |= CBREAK;
-#endif
-    stty(CHANNEL, &tty);
-#ifdef TIOCSETC
-    ioctl(CHANNEL, TIOCGETC, (char *)&oldtchars);
-    newtchars         = oldtchars;
-    newtchars.t_intrc = NOCHAR;
-    newtchars.t_quitc = NOCHAR;
-    newtchars.t_eofc  = NOCHAR;
-    newtchars.t_brkc  = NOCHAR;
-    ioctl(CHANNEL, TIOCSETC, (char *)&newtchars);
-#endif
-#endif /* HAVE_TERMIO_H */
+
 #ifdef TIOCSLTC
     ioctl(CHANNEL, TIOCGLTC, (char *)&oldchars);
     newchars          = oldchars;
@@ -158,15 +99,8 @@ void TtySet()
 
 void TtyReset()
 {
-#if HAVE_TERMIO_H
     SET(&oldtio);
-#else
-    tty.sg_flags = ttyflags;
-    stty(CHANNEL, &tty);
-#ifdef TIOCSETC
-    ioctl(CHANNEL, TIOCSETC, (char *)&oldtchars);
-#endif
-#endif
+
 #ifdef TIOCSLTC
     ioctl(CHANNEL, TIOCSLTC, (char *)&oldchars);
 #endif

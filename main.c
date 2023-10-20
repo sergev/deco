@@ -3,9 +3,7 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include "deco.h"
 #include "dir.h"
 #include "env.h"
@@ -92,13 +90,8 @@ int main(int argc, char **argv, char **envp)
         chdir(argv[1]);
     EnvInit(envp);
     initlang();
-    uid = getuid();
-#ifdef HAVE_GETGROUPS
-    gidnum = getgroups(sizeof(gidlist) / sizeof(gidlist[0]), gidlist);
-#else
-    gidlist[0] = getgid();
-    gidnum     = 1;
-#endif
+    uid      = getuid();
+    gidnum   = getgroups(sizeof(gidlist) / sizeof(gidlist[0]), gidlist);
     main_pid = getpid();
     ppid     = getppid();
     user     = username(uid);

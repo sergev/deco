@@ -3,12 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
 #include "deco.h"
 #include "dir.h"
 #include "env.h"

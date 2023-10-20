@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include "deco.h"
 #include "dir.h"
 #include "scr.h"
 
-#define DECOVERSION "Version 3.9"
+#define DECOVERSION "Version 3.10"
 
 static BOX *cbox;        /* box under cursor */
 static struct dir *cdir; /* drawed directory */

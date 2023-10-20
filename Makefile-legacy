@@ -1,24 +1,25 @@
-#### Start of system configuration section. ####
+#
+# Makefile for legacy systems.
+# Please use cmake instead.
+#
+srcdir          = .
+prefix          = /usr/local
+exec_prefix     = ${prefix}
+bindir          = ${exec_prefix}/bin
+libdir          = ${exec_prefix}/lib
+mandir          = ${prefix}/share/man
 
-srcdir          = @srcdir@
-prefix          = @prefix@
-exec_prefix     = @exec_prefix@
-bindir          = @bindir@
-libdir          = @libdir@
-mandir          = @mandir@
-VPATH           = @srcdir@
+INSTALL         = /usr/local/bin/ginstall -c
+INSTALL_PROGRAM = ${INSTALL}
+INSTALL_DATA    = ${INSTALL} -m 644
+CPPFLAGS        =
+CXXFLAGS        =
+LDFLAGS         =
+LIBS            = -lncurses
+CC              = gcc -Werror -Wall -Wshadow
+CPP             = gcc -E
 
-INSTALL         = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
-INSTALL_DATA    = @INSTALL_DATA@
-CPPFLAGS        = @CPPFLAGS@
-CXXFLAGS        = @CXXFLAGS@
-LDFLAGS         = @LDFLAGS@
-LIBS            = @LIBS@
-CC              = @CC@
-CPP             = @CPP@
-
-CFLAGS          = @CFLAGS@ @DEFS@
+CFLAGS          = -g -O2  -DHAVE_DIRENT_H=1 -DHAVE_SYS_WAIT_H=1 -DHAVE_FCNTL_H=1 -DHAVE_SYS_IOCTL_H=1 -DHAVE_TERMIOS_H=1 -DHAVE_UNISTD_H=1 -DHAVE_TERMCAP_H=1 -DHAVE_ST_RDEV=1 -DGETGROUPS_T=int -DRETSIGTYPE=void -Dvfork=fork -DHAVE_VPRINTF=1 -DHAVE_GETHOSTNAME=1 -DHAVE_GETGROUPS=1 -DHAVE_OPENDIR=1 -DHAVE_MEMCPY=1 -DHAVE_STRTOL=1 -DHAVE_DIRFD=1 -DHAVE_TCGETATTR=1 -DHAVE_TCSETPGRP=1 -DHAVE_KILLPG=1 -DHAVE_LIBNCURSES=1
 
 #### End of system configuration section. ####
 

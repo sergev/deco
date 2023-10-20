@@ -20,20 +20,9 @@
 
 #include <stdlib.h>
 #include <string.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-#if HAVE_TERMCAP_H
 #include <termcap.h>
-#else
-int tgetent(char *, const char *);
-int tgetflag(const char *);
-int tgetnum(const char *);
-char *tgetstr(const char *, char **);
-#endif
 #include "deco.h"
 #include "env.h"
 #include "scr.h"

@@ -4,31 +4,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#if HAVE_DIRENT_H
 #include <dirent.h>
-#define direct dirent
-#else
-#include <sys/dir.h>
-#if !HAVE_OPENDIR
-static int dirfile = -1;
-static struct direct direntry;
-#define DIR           int
-#define opendir(name) ((dirfile = open(name, 0)) >= 0 ? &dirfile : 0)
-#define closedir(f)   (close(dirfile), dirfile = -1)
-#define readdir(f)    (read(dirfile, &direntry, sizeof(direntry)) == sizeof(direntry) ? &direntry : 0)
-#undef dirfd
-#define dirfd(f) dirfile
-#endif
-#endif
-
-#if !HAVE_DIRFD && !defined(dirfd)
-#define dirfd(f) ((f)->dd_fd)
-#endif
-
 #include "deco.h"
 #include "dir.h"
 
@@ -183,7 +160,7 @@ static char *getcwdname(char *pathname)
     char myname[MAXPATHLEN];
     char *upptr, *myptr;
     struct stat root, up, this, f;
-    register struct direct *rec;
+    register struct dirent *rec;
     DIR *dir;
 
     myptr  = &myname[MAXPATHLEN - 1];
@@ -237,7 +214,7 @@ static char *getcwdname(char *pathname)
 int setdir(struct dir *d, char *dirname)
 {
     DIR *f;
-    struct direct *recp;
+    struct dirent *recp;
     register struct file *p;
     struct dir olddir;
     struct stat st;
@@ -327,11 +304,7 @@ int setdir(struct dir *d, char *dirname)
         p->size  = st.st_size;
         p->nlink = st.st_nlink;
         p->dev   = st.st_dev;
-#if HAVE_ST_RDEV
         p->rdev = st.st_rdev;
-#else
-        p->rdev = 0;
-#endif
         p->ino = st.st_ino;
         p->uid = st.st_uid;
         p->gid = st.st_gid;
