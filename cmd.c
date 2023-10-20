@@ -286,10 +286,10 @@ void view()
 void viewinfo()
 {
     char buf[80];
-    char name[512];
+    char name[5000];
     register int d;
 
-    sprintf(name, "%s/.info/%s", cur->cwd, cur->cat[cur->curfile].name);
+    snprintf(name, sizeof(name), "%s/.info/%s", cur->cwd, cur->cat[cur->curfile].name);
     if (userview) {
         strcpy(buf, viewname);
         strcat(buf, " ");
@@ -373,9 +373,9 @@ void edit()
 
 void editinfo()
 {
-    char name[512];
+    char name[5000];
 
-    sprintf(name, "%s/.info/%s", cur->cwd, cur->cat[cur->curfile].name);
+    snprintf(name, sizeof(name), "%s/.info/%s", cur->cwd, cur->cat[cur->curfile].name);
     editfnam(name);
 }
 
@@ -420,7 +420,7 @@ void quit()
         VClear();
         VSync();
         VClose();
-        execle(ABSSHELL, SHELL, "-i", 0, EnvVector);
+        execle(ABSSHELL, SHELL, "-i", NULL, EnvVector);
         exit(0);
     }
     /* else stay here */

@@ -543,7 +543,7 @@ void findfile(struct dir *d, char *name)
 
 void setinfo(struct file *f, struct dir *d)
 {
-    char info[512], rinfo[512];
+    char info[5000], rinfo[512];
     FILE *fd;
 
     f->infoflag = 1;
@@ -553,7 +553,7 @@ void setinfo(struct file *f, struct dir *d)
     if (f->name[0] == '.' && (f->name[1] == 0 || (f->name[1] == '.' && f->name[2] == 0)))
         return;
 
-    sprintf(info, "%s/.info/%s", d->cwd, f->name);
+    snprintf(info, sizeof(info), "%s/.info/%s", d->cwd, f->name);
     fd = fopen(info, "r");
     if (fd) {
         fgetinfo(info, sizeof(info), rinfo, sizeof(rinfo), &f->infodate, fd);

@@ -26,6 +26,8 @@ typedef long CURSOR;
 extern int LINES, COLS;
 extern WINDOW VScreen;
 
+extern int TtyUpperCase;
+
 #define VMPutChar(y, x, ch)    (VMove(y, x), VPutChar(ch))
 #define VMPutString(y, x, str) (VMove(y, x), VPutString(str))
 #define VMGetChar(yy, x)       (VMove(yy, x), (VScreen.y[VScreen.cury][VScreen.curx] & 0377))

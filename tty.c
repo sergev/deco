@@ -51,8 +51,6 @@ static struct ltchars oldchars, newchars;
 #endif
 #endif
 
-int TtyUpperCase;
-
 #define NOCHAR 0
 
 #define GET(addr) tcgetattr(CHANNEL, addr)

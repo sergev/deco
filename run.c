@@ -1,4 +1,5 @@
 #define _POSIX_C_SOURCE 1L
+#define _XOPEN_SOURCE 500
 #include <errno.h>
 #include <setjmp.h>
 #include <signal.h>
@@ -12,8 +13,6 @@
 #include "env.h"
 
 #define QUANT 16
-
-//typedef int (*funcptr)();
 
 static char **arg;
 static int arglen, argp;
@@ -182,9 +181,9 @@ static int run(char *name, char **a0, int (*exe)(char*, char**, char**), int sil
 {
     register int t;
     int status = 0;
-    static char **arg;
+    static char **arg0;
 
-    arg = a0;
+    arg0 = a0;
     signal(SIGCHLD, SIG_IGN);
     t = fork();
     if (t == -1)
@@ -208,7 +207,7 @@ static int run(char *name, char **a0, int (*exe)(char*, char**, char**), int sil
             tcsetpgrp(2, child_pid);
         }
         signal(SIGTTOU, SIG_DFL);
-        (*exe)(name, arg, EnvVector);
+        (*exe)(name, arg0, EnvVector);
         if (!silent)
             outerr("%s: Command not found.\n", name);
         _exit(0x7f); /* file not found */
