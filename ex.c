@@ -405,7 +405,7 @@ static int initudm(char *filename, char *scale)
     register int n;
     register char *p;
     int fd;
-    char buf[BUFSZ];
+    static char buf[BUFSZ];
 
     fd = openmenu(filename);
     if (fd < 0) {
