@@ -10,7 +10,7 @@
  *      TtyFlushInput ()
  *              - flush input queue.
  */
-#include <sys/termios.h>
+#include <termios.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include "scr.h"

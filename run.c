@@ -130,14 +130,34 @@ static int execvpe(char *name, char **argv, char **envstr)
     return (-1);
 }
 
+/*
+ * runl() can have no more than 10 arguments.
+ */
+#define RUNL_MAXARG 10
+
 int runl(int silent, char *name, ...)
 {
+    char *args[RUNL_MAXARG];
+    int num_args = 0;
     va_list ap;
     int err;
 
+    /* Collect all arguments. */
     va_start(ap, name);
-    err = run(name, (char**)ap, execve, silent);
+    for (;;) {
+        char *a = va_arg(ap, char *);
+        args[num_args++] = a;
+        if (!a) {
+            break;
+        }
+        if (num_args >= RUNL_MAXARG) {
+            outerr("%s: Too many arguments.\n", name);
+            return -1;
+        }
+    }
     va_end(ap);
+
+    err = run(name, args, execve, silent);
     return err;
 }
 
