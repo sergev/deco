@@ -22,7 +22,13 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <termcap.h>
+#if _CRAY
+#   include <termio.h>
+    typedef struct termio SGTTY;
+#   include <term.h>
+#else
+#   include <termcap.h>
+#endif
 #include "deco.h"
 #include "env.h"
 #include "scr.h"
